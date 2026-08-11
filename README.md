@@ -14,7 +14,7 @@
 
 # 使用方法
 
-安装node，安装包目录：\node，没有合适node的话上[官网](https://nodejs.org/zh-cn/download)下载，建议下载v24.19.0
+安装node，安装包目录：\Mio-IDE\node，没有合适node的话上[官网](https://nodejs.org/zh-cn/download)下载，建议下载v24.19.0
 
 进入\Mio-IDE，找到mio-ide-run.bat，运行便可启动mioIDE，可以给它在桌面弄个快捷方式
 
