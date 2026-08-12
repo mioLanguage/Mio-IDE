@@ -20,5 +20,17 @@ if not exist "node_modules" (
 
 echo Starting dev server...
 echo.
+
+REM Build Electron TypeScript files first
+echo [INFO] Building Electron main process...
+call npm run build:electron
+if %errorlevel% neq 0 (
+    echo.
+    echo [ERROR] Electron build failed.
+    pause
+    exit /b 1
+)
+
+echo.
 call npm run dev
 pause
