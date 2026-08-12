@@ -10,7 +10,7 @@ import { mioLanguage } from './mioLanguage'
 type Action = 'compile' | 'run' | 'compile-run'
 type Output = { stream: 'stdout' | 'stderr'; text: string }
 const defaultCompile = 'mioc "${file}" -o "${output}"'
-const defaultRun = "& '${output}'; pause"
+const defaultRun = 'start "" cmd /k "${output}"'
 
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null)
