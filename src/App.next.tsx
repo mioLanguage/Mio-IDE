@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { EditorView, keymap, lineNumbers, highlightActiveLine, drawSelection } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { defaultKeymap, indentWithTab, history, historyKeymap } from '@codemirror/commands'
-import { syntaxHighlighting, defaultHighlightStyle, bracketMatching, indentOnInput } from '@codemirror/language'
+import { syntaxHighlighting, defaultHighlightStyle, bracketMatching, indentOnInput, indentUnit } from '@codemirror/language'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { Play, Square, FolderOpen, Save, Plus, Sun, Moon, PanelBottom, FileCode2, ChevronDown, Settings2, Hammer, Zap, X } from 'lucide-react'
 import { mioLanguage } from './mioLanguage'
@@ -36,7 +36,7 @@ export default function App() {
     const update = EditorView.updateListener.of((transaction) => {
       if (transaction.docChanged) setContent(transaction.state.doc.toString())
     })
-    const state = EditorState.create({ doc: content, extensions: [lineNumbers(), highlightActiveLine(), drawSelection(), history(), bracketMatching(), indentOnInput(), keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]), mioLanguage, syntaxHighlighting(defaultHighlightStyle), ...(dark ? [oneDark] : []), update] })
+    const state = EditorState.create({ doc: content, extensions: [lineNumbers(), highlightActiveLine(), drawSelection(), history(), bracketMatching(), indentOnInput(), EditorState.tabSize.of(4), indentUnit.of('    '), keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]), mioLanguage, syntaxHighlighting(defaultHighlightStyle), ...(dark ? [oneDark] : []), update] })
     const view = new EditorView({ state, parent: editorRef.current })
     viewRef.current = view
     return () => view.destroy()
