@@ -78,7 +78,8 @@ function executeCommand(command: string, file: string, openInNewWindow = false) 
       if (openInNewWindow) {
         // 新开一个 cmd 窗口运行程序，输出显示在独立窗口
         // 用 cmd /k 保持窗口打开，不设置 windowsHide 让窗口可见
-        running = spawn('cmd.exe', ['/k', expanded], { cwd, env, windowsHide: false })
+        const cmdPath = process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
+        running = spawn(cmdPath, ['/k', expanded], { cwd, env, windowsHide: false })
         running.on('error', (error) => sendOutput('stderr', `${error.message}\n`))
         running.on('close', () => { running = null; resolve(0) })
         return
