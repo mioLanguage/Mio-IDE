@@ -11,7 +11,7 @@ type Action = 'compile' | 'run' | 'compile-run'
 type Output = { stream: 'stdout' | 'stderr'; text: string }
 const starter = 'import stdio.h;\n\ndef void main() {\n    var x: i32 = 10;\n    printf("Hello, Mio!\\n");\n    printf("x = %d\\n", x);\n}\n'
 const defaultCompile = 'mioc "${file}" -o "${output}"'
-const defaultRun = '"${output}"'
+const defaultRun = 'cmd /k "${output}"'
 
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null)

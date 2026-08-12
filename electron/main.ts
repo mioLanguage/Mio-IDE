@@ -77,8 +77,9 @@ function executeCommand(command: string, file: string, useCmd = false) {
     if (os.platform() === 'win32') {
       if (useCmd) {
         // 运行命令用 cmd 执行，支持 start "${output}" & pause 语法
+        // windowsHide: false 让 start 打开的新窗口正常显示
         const cmdPath = process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
-        running = spawn(cmdPath, ['/c', expanded], { cwd, windowsHide: true, env })
+        running = spawn(cmdPath, ['/c', expanded], { cwd, windowsHide: false, env })
       } else {
         const shell = getPowerShellPath()
         running = spawn(shell, ['-NoProfile', '-Command', expanded], { cwd, windowsHide: true, env })
