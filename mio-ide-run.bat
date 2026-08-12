@@ -1,25 +1,24 @@
 @echo off
-chcp 65001 >nul
 title Mio-IDE
 echo ============================================
-echo   正在启动 Mio-IDE...
+echo   Starting Mio-IDE...
 echo ============================================
 echo.
 
-REM 检查依赖是否已安装
+REM Check if dependencies are installed
 if not exist "node_modules" (
-    echo [提示] 未检测到依赖，正在自动安装...
+    echo [INFO] Dependencies not found, installing...
     echo.
     call npm install
     if %errorlevel% neq 0 (
         echo.
-        echo [错误] 依赖安装失败，请检查网络后重试。
+        echo [ERROR] Dependency installation failed. Please check your network and retry.
         pause
         exit /b 1
     )
 )
 
-echo 正在启动开发服务器...
+echo Starting dev server...
 echo.
 call npm run dev
 pause
