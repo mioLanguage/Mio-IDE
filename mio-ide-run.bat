@@ -32,5 +32,5 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-call npm run dev
+start "" /b cmd /c "npm run dev"
 pause
