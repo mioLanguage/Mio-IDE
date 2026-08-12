@@ -20,7 +20,7 @@
 
 运行后，不要动新创建的cmd窗口，过一会mio-IDE就会加载出来
 
-如果不想看到cmd黑窗口，可以双击mio-ide-start.vbs，它会隐藏窗口后台静默启动mio-IDE（调试时建议用mio-ide-run.bat，能看到错误信息）
+如果不想看到cmd窗口，可以双击mio-ide-start.vbs，它会隐藏窗口后台静默启动mio-IDE（调试时建议用mio-ide-run.bat，能看到错误信息）
 
 此版本仅能打开一个文件。
 

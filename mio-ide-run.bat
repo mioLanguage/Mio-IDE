@@ -32,5 +32,5 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-start "" /b cmd /c "npm run dev"
-pause
+start "Mio-IDE Dev Server" cmd /k "npm run dev"
+exit
