@@ -79,8 +79,9 @@ function executeCommand(command: string, file: string, openInNewWindow = false) 
         // 新开一个 cmd 窗口运行程序，输出显示在独立窗口
         // 程序结束后执行 pause，按任意键才关闭窗口
         const cmdPath = process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
-        const runCmd = `${expanded} & pause`
-        running = spawn(cmdPath, ['/k', runCmd], { cwd, env, windowsHide: false })
+        // 用 start 新开一个独立 cmd 窗口，运行程序并在结束后 pause
+        const startCmd = `start "Mio Program" /D "${cwd}" cmd /k "${expanded} & pause"`
+        running = spawn(cmdPath, ['/c', startCmd], { cwd, env, windowsHide: true })
         running.on('error', (error) => sendOutput('stderr', `${error.message}\n`))
         running.on('close', () => { running = null; resolve(0) })
         return
