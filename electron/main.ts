@@ -63,7 +63,7 @@ function expandCommand(command: string, file: string) {
   return command.replace(/\$\{(file|fileName|fileBase|dir|output)\}/g, (_match, key: string) => values[key])
 }
 
-function executeCommand(command: string, file: string) {
+function executeCommand(command: string, file: string, useCmd = false) {
   return new Promise<number>((resolve) => {
     const expanded = expandCommand(command, file)
     sendOutput('stdout', `$ ${expanded}\n`)
@@ -75,9 +75,14 @@ function executeCommand(command: string, file: string) {
     }
     const cwd = path.dirname(file)
     if (os.platform() === 'win32') {
-      const shell = getPowerShellPath()
-      // 用 PowerShell 执行命令，用户可配置 start "${output}" & pause 来新开窗口
-      running = spawn(shell, ['-NoProfile', '-Command', expanded], { cwd, windowsHide: true, env })
+      if (useCmd) {
+        // 运行命令用 cmd 执行，支持 start "${output}" & pause 语法
+        const cmdPath = process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
+        running = spawn(cmdPath, ['/c', expanded], { cwd, windowsHide: true, env })
+      } else {
+        const shell = getPowerShellPath()
+        running = spawn(shell, ['-NoProfile', '-Command', expanded], { cwd, windowsHide: true, env })
+      }
     } else {
       running = spawn(expanded, { cwd, shell: true, env })
     }
@@ -112,7 +117,9 @@ ipcMain.handle('code:execute', async (_event, payload: { action: 'compile' | 'ru
   const commands = payload.action === 'compile' ? [payload.compileCommand] : payload.action === 'run' ? [payload.runCommand] : [payload.compileCommand, payload.runCommand]
   if (commands.some((command) => !command.trim())) return { ok: false, error: '请先在设置中填写命令' }
   for (const command of commands) {
-    const exitCode = await executeCommand(command, payload.file)
+    // 运行命令用 cmd 执行（支持 start "${output}" & pause），编译命令用 PowerShell
+    const isRun = payload.action === 'run' || (payload.action === 'compile-run' && command === payload.runCommand)
+    const exitCode = await executeCommand(command, payload.file, isRun)
     if (exitCode !== 0) { sendOutput('stderr', `进程退出，代码 ${exitCode}\n`); return { ok: false, exitCode } }
   }
   sendOutput('stdout', '执行完成\n')
