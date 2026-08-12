@@ -32,5 +32,5 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-start "Mio-IDE Dev Server" cmd /k "npm run dev"
+call npm run dev
 exit

@@ -4,7 +4,7 @@
 
 也可以用vscode的[miolanguage](https://marketplace.visualstudio.com/items?itemName=HZY1618yzh.mioforvscode)拓展，配合[Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)也可以用
 
-请提前下载好mio3.0编译器，并添加到环境变量的path
+请提前下载好mio3.0编译器，并添加到环境变量的path。不添加也行，在编译命令的mioc前面加上mioc所在目录
 
 由于Mio3.0编译器更新得非常勤，暂时没有自动更新（不然每天消耗你1GB）但如果觉得Mio语言有BUG，就可以更新。如果最新版本也有一样的BUG，可以去[报告bug](https://github.com/mioLanguage/mio/discussions)
 
@@ -22,6 +22,8 @@
 
 如果不想看到cmd窗口，可以双击mio-ide-start.vbs，它会隐藏窗口后台静默启动mio-IDE（调试时建议用mio-ide-run.bat，能看到错误信息）
 
+# 功能介绍
+
 此版本仅能打开一个文件。
 
 窗口右上角有编译、运行、编译运行按钮，按'＝'按钮可以设置编译命令和运行命令（不建议改，易改炸）
@@ -30,4 +32,7 @@
 
 编译输出在代码编辑窗口下面。
 
-左上角可以保存打开文件，编译按钮左侧也可以保存打开文件
+左上角可以保存打开文件，编译按钮左侧也可以保存打开文件。
+
+编译、运行、编译运行按钮下面，可以调整字号、调整颜色、打开或关闭编译输出窗口
+

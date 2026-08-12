@@ -77,9 +77,8 @@ function executeCommand(command: string, file: string, openInNewWindow = false) 
     if (os.platform() === 'win32') {
       if (openInNewWindow) {
         // 新开一个 cmd 窗口运行程序，输出显示在独立窗口
-        const shell = getPowerShellPath()
-        const startCmd = `Start-Process cmd -ArgumentList '/k', '${expanded.replace(/'/g, "''")}' -WorkingDirectory '${cwd.replace(/'/g, "''")}'`
-        running = spawn(shell, ['-NoProfile', '-Command', startCmd], { cwd, windowsHide: true, env })
+        // 用 cmd /k 保持窗口打开，不设置 windowsHide 让窗口可见
+        running = spawn('cmd.exe', ['/k', expanded], { cwd, env, windowsHide: false })
         running.on('error', (error) => sendOutput('stderr', `${error.message}\n`))
         running.on('close', () => { running = null; resolve(0) })
         return
