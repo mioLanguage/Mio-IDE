@@ -4,13 +4,15 @@
 
 也可以用vscode的[miolanguage](https://marketplace.visualstudio.com/items?itemName=HZY1618yzh.mioforvscode)拓展，配合[Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)也可以用
 
-请提前下载好mio3.0编译器，并添加到环境变量的path。不添加也行，在编译命令的mioc前面加上mioc所在目录
+请提前下载好 Mio3 编译器，并添加到环境变量的 path 。不添加也行，在编译命令的 mioc 前面加上 mioc 所在目录
 
-由于Mio3.0编译器更新得非常勤，暂时没有自动更新（不然每天消耗你1GB）但如果觉得Mio语言有BUG，就可以更新。如果最新版本也有一样的BUG，可以去[报告bug](https://github.com/mioLanguage/mio/discussions)
+由于Mio3编译器更新得非常勤，暂时没有自动更新（不然每天消耗你1GB）但如果觉得Mio语言有BUG，就可以更新。如果最新版本也有一样的BUG，可以去[Mio3 编译器bug报告](https://github.com/mioLanguage/mio/discussions)报告BUG
 
-[Mio3.0 下载链接](https://github.com/mioLanguage/mio/releases)
+[Mio3 编译器下载链接](https://github.com/mioLanguage/mio/releases)
 
-[Mio 语法](https://mio.hzy.us.kg/)
+[Mio3 语法](https://mio.hzy.us.kg/)
+
+[Mio-IDE BUG报告](https://github.com/mioLanguage/mio-ide/discussions)
 
 # 使用方法
 
@@ -28,7 +30,7 @@
 
 暂时仅能打开一个文件
 
-窗口右上角有编译、运行、编译运行按钮，按```°＝•```按钮可以设置编译命令和运行命令（不建议改，易改炸）
+窗口右上角有编译、运行、编译运行按钮，按```°＝•```按钮可以设置编译命令和运行命令（不建议改运行命令，易改炸）
 
 代码编辑窗口在窗口中间，支持高亮
 

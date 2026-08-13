@@ -74,23 +74,32 @@ function executeCommand(command: string, file: string, useCmd = false) {
       env.PATH = pathSegments.join(';')
     }
     const cwd = path.dirname(file)
+    const attach = (child: ChildProcess) => {
+      child.stdout?.on('data', (chunk) => sendOutput('stdout', decodeOutput(chunk)))
+      child.stderr?.on('data', (chunk) => sendOutput('stderr', decodeOutput(chunk)))
+      child.on('error', (error) => sendOutput('stderr', `${error.message}\n`))
+      child.on('close', (code) => { running = null; resolve(code ?? 1) })
+    }
     if (os.platform() === 'win32') {
       if (useCmd) {
-        // 运行命令用 cmd 执行，支持 start "${output}" & pause 语法
-        // windowsHide: false 让 start 打开的新窗口正常显示
+        // 运行命令用 cmd 执行。为避免 start 命令在命令行参数传递时的引号问题
+        // （cmd 会把 "path" 转成 \"path\" 导致找不到文件），把命令写入临时
+        // .bat 文件再执行——批处理文件里的引号解析是可靠的。
         const cmdPath = process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
-        running = spawn(cmdPath, ['/c', expanded], { cwd, windowsHide: false, env })
+        const batPath = path.join(os.tmpdir(), `mio-run-${Date.now()}.bat`)
+        fs.writeFile(batPath, `@echo off\r\n${expanded}\r\n`, 'utf8').then(() => {
+          running = spawn(cmdPath, ['/c', batPath], { cwd, windowsHide: false, env })
+          attach(running)
+        }).catch((error) => sendOutput('stderr', `写入批处理失败: ${error.message}\n`))
       } else {
         const shell = getPowerShellPath()
         running = spawn(shell, ['-NoProfile', '-Command', expanded], { cwd, windowsHide: true, env })
+        attach(running)
       }
     } else {
       running = spawn(expanded, { cwd, shell: true, env })
+      attach(running)
     }
-    running.stdout?.on('data', (chunk) => sendOutput('stdout', decodeOutput(chunk)))
-    running.stderr?.on('data', (chunk) => sendOutput('stderr', decodeOutput(chunk)))
-    running.on('error', (error) => sendOutput('stderr', `${error.message}\n`))
-    running.on('close', (code) => { running = null; resolve(code ?? 1) })
   })
 }
 
